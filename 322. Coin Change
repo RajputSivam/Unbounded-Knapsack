@@ -20,5 +20,37 @@ Appraoch
 4. perform take not take 
 5.dp[i][j]= Math.min(t,nt) 
 6. takes will store number of steps
-7. return return dp[coins.length][amount]>=(int)1e9?-1:dp[coins.length][amount
+7. return return dp[coins.length][amount]>=(int)1e9?-1:dp[coins.length][amount]
+
+//Recursive
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int ans=help(coins.length-1,coins,amount);
+        return ans>=(int)1e9?-1:ans;
+    }
+    public static int help(int idx,int [] coins,int amount)
+    {
+        if( amount==0) return 0;
+        if( idx==0)
+        {
+            if( amount%coins[idx]==0)
+            {
+                return amount/coins[idx];
+            }
+            else
+            {
+                return (int)1e9;
+            }
+        }
+        //nt
+        int nt=help(idx-1,coins,amount);
+        //t
+        int t=(int)1e9;
+        if( amount>=coins[idx])
+        {
+            t=1+help(idx,coins,amount-coins[idx]);
+        }
+        return Math.min(t,nt);
+    }
+}
   
