@@ -1,0 +1,101 @@
+518. Coin Change II
+
+You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
+
+Return the number of combinations that make up that amount. If that amount of money cannot be made up by any combination of the coins, return 0.
+
+You may assume that you have an infinite number of each kind of coin.
+
+The answer is guaranteed to fit into a signed 32-bit integer.
+
+Example 1:
+
+Input: amount = 5, coins = [1,2,5]
+Output: 4
+Explanation: there are four ways to make up the amount:
+5=5
+5=2+2+1
+5=2+1+1+1
+5=1+1+1+1+1
+
+Approach
+Recursive
+1. Base Case 
+   1. If amount==0 return 1
+   2. If index<0 return 0 
+   3. Pefrom take,nottake 
+   4. return take+nottake
+
+Tabulation
+1. Base Case
+  for(int i=0;i<coins.length;i++)// amount==0
+        {
+            dp[i][0]=1;
+        }
+        for(int i=0;i<=amount;i++)// index=0
+        {
+            dp[0][i]=0;
+        }
+        dp[0][0]=1;
+2. Tabulation mein yeh condition i > 0 check se already handle ho rahi hai:// becuse this condition is used in recursion when index<0
+int nt = (i > 0) ? dp[i-1][t] : 0;  // ✅ i=0 pe koi previous row nahi = 0
+3 return dp[coins.length - 1][amount];
+
+//Recursive
+
+class Solution {
+    int c=0;
+    public int change(int amount, int[] coins) {
+        return help(coins,amount,coins.length-1);
+    }
+    public int  help(int []coins,int amount,int idx)
+    {
+        if( idx<0) return 0 ;
+        if( amount==0)
+        {
+            return 1;
+        }
+        int nt=help(coins,amount,idx-1);
+        int t=0;
+
+        if( amount>=coins[idx] )
+        {
+            t=help(coins,amount-coins[idx],idx);
+        }   
+        return t+nt;
+    }
+}
+
+//Tabulaion
+class Solution {
+    int c=0;
+    public int change(int amount, int[] coins) {
+        int [][]dp=new int[coins.length+1][amount+1];
+        for(int i=0;i<coins.length;i++)
+        {
+            dp[i][0]=1;
+        }
+        for(int i=0;i<=amount;i++)
+        {
+            dp[0][i]=0;
+        }
+        dp[0][0]=1;
+        for(int i=0;i<coins.length;i++)
+        {
+            for(int t=1;t<=amount;t++)
+            {
+                int nt=(i>0)?dp[i-1][t]:0;
+                int tk=0;
+
+                if( t>=coins[i] )
+                {
+                    tk=dp[i][ t-coins[i] ];
+                }
+                dp[i][t]=tk+nt;
+            }
+        }
+        return dp[coins.length-1][amount];
+    
+        
+    }
+}
