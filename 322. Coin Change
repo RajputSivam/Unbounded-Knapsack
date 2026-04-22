@@ -21,6 +21,19 @@ Appraoch
 5.dp[i][j]= Math.min(t,nt) 
 6. takes will store number of steps
 7. return return dp[coins.length][amount]>=(int)1e9?-1:dp[coins.length][amount]
+Tabulation
+1. for(int i=0;i<=amount;i++)
+        {
+            dp[0][i]=(i%coins[0]==0)?i/coins[0]:(int)1e9; 
+        }
+        for(int i=0;i<coins.length;i++)
+        {
+            dp[i][0]=0;
+        }
+2. check over flow
+int ans=dp[n-1][amount];
+        return (ans>=(int)1e9)?-1:ans;
+
 
 //Recursive
 class Solution {
