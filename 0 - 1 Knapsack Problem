@@ -1,0 +1,41 @@
+0 - 1 Knapsack Problem
+Difficulty: MediumAccuracy: 31.76%Submissions: 574K+Points: 4
+Given two arrays, val[] and wt[], where each element represents the value and weight of an item respectively, and an integer W representing the maximum capacity of the knapsack (the total weight it can hold).
+
+The task is to put the items into the knapsack such that the total value obtained is maximum without exceeding the capacity W.
+
+Note: You can either include an item completely or exclude it entirely — fractional selection of items is not allowed. Each item is available only once.
+
+Examples :
+
+Input: W = 4, val[] = [1, 2, 3], wt[] = [4, 5, 1]
+Output: 3
+Explanation: Choose the last item, which weighs 1 unit and has a value of 3.
+
+class Solution {
+    public int knapsack(int W, int val[], int wt[]) {
+        // code here
+        return help(val.length-1,W,wt,val);  
+    }
+    public static int help(int idx,int target,int []wt,int []val)//unbounded
+    {
+        if( target==0) return 0;
+        if( idx==0) return (target/wt[0])*val[0];
+        
+        if(target<wt[idx] )
+        {
+            return help(idx-1,target,wt,val);
+        }
+        
+                
+        int nt=help(idx-1,target,wt,val);
+        int t=0;
+        if( target>=wt[idx] )
+        {
+            t=val[idx]+help(idx,target-wt[idx],wt,val);
+        }
+        return Math.max(t,nt);
+
+        
+    }
+}
